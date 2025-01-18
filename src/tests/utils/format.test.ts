@@ -422,3 +422,73 @@ test('formatProperties insert Final New line, false', () => {
 
     expect(formatProperties(config, propertieslist)).toStrictEqual(expectedResult);
 });
+// =============================================================
+// ============== Tmp =============
+// =============================================================
+
+test('tmp1', () => {
+    const config: Config = {
+        orderList: [],
+        tabSize: 4,
+        spaceBeforeClass: true,
+        insertFinalNewline: true,
+    };
+
+    const propertieslist: string[] = [
+        '.asd {',
+        'width: 100px;',
+        '.aaa {',
+        '}',
+        '}'
+    ];
+
+    const expectedResult =
+`
+.asd {
+    width: 100px;
+
+    .aaa {
+    }
+}
+`.slice(1);
+
+    expect(formatProperties(config, propertieslist)).toStrictEqual(expectedResult);
+});
+
+test('tmp2', () => {
+    const config: Config = {
+        orderList: [],
+        tabSize: 4,
+        spaceBeforeClass: true,
+        insertFinalNewline: true,
+    };
+
+    const propertieslist: string[] = [
+        '.header-large {',
+        'display: flex;',
+        'justify-content: space-between;',
+        'align-items: center;',
+        '@include utils.set-width();',
+        '@include utils.set-padding(',
+        'var(--wlt-space-base),',
+        '$wlt-vprt-grid--margin',
+        ');',
+        '}'
+    ];
+
+    const expectedResult =
+`
+.header-large {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @include utils.set-width();
+    @include utils.set-padding(
+        var(--wlt-space-base),
+        $wlt-vprt-grid--margin
+    );
+}
+`.slice(1);
+
+    expect(formatProperties(config, propertieslist)).toStrictEqual(expectedResult);
+});

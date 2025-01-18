@@ -492,3 +492,103 @@ test('tmp2', () => {
 
     expect(formatProperties(config, propertieslist)).toStrictEqual(expectedResult);
 });
+
+test('tmp3', () => {
+    const config: Config = {
+        orderList: [],
+        tabSize: 4,
+        spaceBeforeClass: true,
+        insertFinalNewline: true,
+    };
+
+    const propertieslist: string[] = [
+        '.navigation-btns {',
+        'margin-top: 50px;',
+        'display: flex;',
+        'gap: 16px;',
+        '.next-btn {',
+        'width: 230px;',
+        'gap: 8px;',
+        '}',
+        '.asd {',
+        '}',
+        '}',
+    ];
+
+    const expectedResult =
+`
+.navigation-btns {
+    margin-top: 50px;
+    display: flex;
+    gap: 16px;
+
+    .next-btn {
+        width: 230px;
+        gap: 8px;
+    }
+
+    .asd {
+    }
+}
+`.slice(1);
+
+    expect(formatProperties(config, propertieslist)).toStrictEqual(expectedResult);
+});
+
+test('tmp4', () => {
+    const config: Config = {
+        orderList: [],
+        tabSize: 4,
+        spaceBeforeClass: true,
+        insertFinalNewline: true,
+    };
+
+    const propertieslist: string[] = [
+        '.required-photos {',
+        'margin-top: 10px;',
+        'display: flex;',
+        'flex-wrap: wrap;',
+        '// TODO: 1/3 of the width have to be set here',
+        'gap: 16px;',
+        '}',
+    ];
+
+    const expectedResult =
+`
+.required-photos {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    // TODO: 1/3 of the width have to be set here
+    gap: 16px;
+}
+`.slice(1);
+
+    expect(formatProperties(config, propertieslist)).toStrictEqual(expectedResult);
+});
+
+test('tmp4', () => {
+    const config: Config = {
+        orderList: [],
+        tabSize: 4,
+        spaceBeforeClass: true,
+        insertFinalNewline: true,
+    };
+
+    const propertieslist: string[] = [
+        '.required-photos {',
+        '.asd {',
+        '}',
+        '}',
+    ];
+
+    const expectedResult =
+`
+.required-photos {
+    .asd {
+    }
+}
+`.slice(1);
+
+    expect(formatProperties(config, propertieslist)).toStrictEqual(expectedResult);
+});

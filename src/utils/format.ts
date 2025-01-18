@@ -18,11 +18,13 @@ export function formatProperties(config: Config, propertieslist: string[]): stri
         const currentEndsWithBraceOpen = propertieslist[i].endsWith('{');
         const currentEndsWithParenthesisOpen = propertieslist[i].endsWith('(');
         const currentIsBraceClose = propertieslist[i] === '}';
+        const currnetIsComment = propertieslist[i].startsWith('//');
+        const beforeEndsWithBraceOpen = 0 < i ? propertieslist[i - 1].endsWith('{') : false;
 
-        if (currentEndsWithSemi || currentEndsWithComma) {
+        if (currentEndsWithSemi || currentEndsWithComma || currnetIsComment) {
             newText += addSpacesToBeginning(propertieslist[i], tabNum * config.tabSize);
         } else if (currentEndsWithBraceOpen) {
-            if (config.spaceBeforeClass && i !== 0) {
+            if (config.spaceBeforeClass && !beforeEndsWithBraceOpen && i !== 0) {
                 newText += '\n';
             }
             newText += addSpacesToBeginning(propertieslist[i], tabNum * config.tabSize);
@@ -48,49 +50,3 @@ export function formatProperties(config: Config, propertieslist: string[]): stri
 
     return newText;
 }
-// export function formatProperties(config: Config, propertieslist: string[]): string {
-//     let newText = propertieslist[0];
-//     let tabNum = 0;
-
-//     for (let i = 1; i < propertieslist.length; i++) {
-//         const beforeEndWithSemiCol = propertieslist[i - 1].endsWith(';');
-
-//         const beforeEndWithBraceOpen = propertieslist[i - 1].endsWith('{');
-//         const currentIsBraceClose = propertieslist[i] === '}';
-//         const currentEndsWithBraceOpen = propertieslist[i].endsWith('{');
-//         const beforeEndWithParenthesisOpen = propertieslist[i - 1].endsWith('(');
-
-
-//         // if (beforeEndWithParenthesisOpen) {
-//         //     newText += '\n';
-//         //     newText += addSpacesToBeginning(propertieslist[i], (tabNum + 1) * config.tabSize);
-//         //     tabNum++;
-//         // } else if (beforeEndWithBraceOpen && currentIsBraceClose) {
-//         //     newText += '\n';
-//         //     newText += addSpacesToBeginning(propertieslist[i], (tabNum) * config.tabSize);
-//         //     tabNum = tabNum - 1;
-//         // } else if (beforeEndWithBraceOpen) {
-//         //     newText += '\n';
-//         //     newText += addSpacesToBeginning(propertieslist[i], (tabNum + 1) * config.tabSize);
-//         //     tabNum++;
-//         // } else if (currentIsBraceClose) {
-//         //     newText += '\n';
-//         //     newText += addSpacesToBeginning(propertieslist[i], (tabNum - 1) * config.tabSize);
-//         //     tabNum = tabNum - 1;
-//         // } else if (currentEndsWithBraceOpen) {
-//         //     if (config.spaceBeforeClass) {
-//         //         newText += '\n';
-//         //     }
-//         //     newText += '\n';
-//         //     newText += addSpacesToBeginning(propertieslist[i], tabNum * config.tabSize);
-//         // } else {
-//         //     newText += '\n';
-//         //     newText += addSpacesToBeginning(propertieslist[i], tabNum * config.tabSize);
-//         // }
-//     }
-//     if (config.insertFinalNewline) {
-//         newText += '\n';
-//     }
-
-//     return newText;
-// }
